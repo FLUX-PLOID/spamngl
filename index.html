@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPAM NGL</title>
+    <title>TAMBAH PESAN NGL - WORKING FIXED</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -151,60 +151,19 @@
             color: var(--secondary);
         }
         
-        .progress-container {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            margin: 15px 0;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 10px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-            transition: width 0.3s ease;
-            width: 0%;
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 15px 0;
-            font-size: 14px;
-        }
-        
-        .stat-item {
-            text-align: center;
-            padding: 8px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            flex: 1;
-            margin: 0 5px;
-        }
-        
         .footer {
             text-align: center;
             margin-top: 30px;
             color: #a0a0cc;
             font-size: 0.9rem;
         }
-        
-        .debug-info {
-            margin-top: 15px;
-            padding: 10px;
-            background: rgba(255, 0, 60, 0.1);
-            border-radius: 8px;
-            font-size: 12px;
-            display: none;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1><i class="fas fa-paper-plane"></i> SPAM NGL </h1>
-            <p class="subtitle">MAX 20 PESAN - Premium Version</p>
+            <h1><i class="fas fa-paper-plane"></i> TAMBAH PESAN NGL</h1>
+            <p class="subtitle">Kirim pesan ke NGL.link - WORKING VERSION</p>
         </div>
         
         <div class="form-group">
@@ -219,42 +178,23 @@
         
         <div class="form-group">
             <label for="messageText"><i class="fas fa-comment"></i> Isi Pesan</label>
-            <input type="text" id="messageText" placeholder="Tulis pesan Anda..." value="🚀 Pesan otomatis dari NGL Sender Premium" required>
+            <input type="text" id="messageText" placeholder="Tulis pesan Anda..." value="Test dari NGL Sender 🚀" required>
         </div>
         
         <button class="btn" id="sendBtn">
-            <i class="fas fa-paper-plane"></i> KIRIM 20 PESAN
+            <i class="fas fa-paper-plane"></i> KIRIM PESAN
         </button>
-        
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
         
         <div class="counter" id="counter">
             Progress: <span id="currentCount">0</span>/<span id="totalCount">0</span>
         </div>
         
-        <div class="stats">
-            <div class="stat-item" id="successStat">
-                <i class="fas fa-check" style="color: #00ff00;"></i><br>
-                Berhasil: <span id="successCount">0</span>
-            </div>
-            <div class="stat-item" id="failedStat">
-                <i class="fas fa-times" style="color: #ff0000;"></i><br>
-                Gagal: <span id="failedCount">0</span>
-            </div>
-        </div>
-        
         <div class="status processing" id="status">
-            💡 Masukkan link NGL yang valid untuk mulai mengirim pesan
-        </div>
-        
-        <div class="debug-info" id="debugInfo">
-            <strong>Status:</strong> <span id="debugText">Siap mengirim pesan...</span>
+            Siap mengirim pesan...
         </div>
         
         <div class="footer">
-            <p>© 2025 ngl spamer sender - by xfelloid</p>
+            <p>© 2023 NGL Message Sender - Presentasi Ready</p>
         </div>
     </div>
 
@@ -268,37 +208,9 @@
             const counterDiv = document.getElementById('counter');
             const currentCountSpan = document.getElementById('currentCount');
             const totalCountSpan = document.getElementById('totalCount');
-            const progressBar = document.getElementById('progressBar');
-            const successCountSpan = document.getElementById('successCount');
-            const failedCountSpan = document.getElementById('failedCount');
-            const debugInfoDiv = document.getElementById('debugInfo');
-            const debugTextSpan = document.getElementById('debugText');
             
-            let successCount = 0;
-            let failedCount = 0;
-            
-            // Update progress bar
-            function updateProgress(current, total) {
-                const percentage = (current / total) * 100;
-                progressBar.style.width = percentage + '%';
-            }
-            
-            // Update statistics
-            function updateStats() {
-                successCountSpan.textContent = successCount;
-                failedCountSpan.textContent = failedCount;
-            }
-            
-            // Show debug info
-            function showDebugInfo(message) {
-                debugTextSpan.textContent = message;
-                debugInfoDiv.style.display = 'block';
-            }
-            
-            // Enhanced sending function
-            async function sendNGLMessage(link, message, attempt = 1) {
-                const maxAttempts = 3;
-                
+            // Fungsi untuk mengirim pesan ke NGL
+            async function sendToNGL(link, message) {
                 try {
                     let cleanLink = link.trim();
                     if (!cleanLink.startsWith('http')) {
@@ -309,180 +221,107 @@
                     const username = url.pathname.split('/').filter(Boolean)[0];
                     
                     if (!username) {
-                        throw new Error('Format link tidak valid');
+                        throw new Error('Format link NGL tidak valid');
                     }
                     
-                    showDebugInfo(`Mengirim pesan ke: ${username} (Percobaan ${attempt})`);
+                    const apiUrl = `https://ngl.link/${username}`;
                     
-                    // Try multiple methods
-                    const methods = [
-                        async () => {
-                            // Method 1: Direct fetch with proxy
-                            const proxyUrl = `https://cors-anywhere.herokuapp.com/https://ngl.link/${username}`;
-                            const formData = new FormData();
-                            formData.append('question', message);
-                            formData.append('username', username);
-                            
-                            const response = await fetch(proxyUrl, {
-                                method: 'POST',
-                                body: formData,
-                                headers: {
-                                    'Accept': '*/*',
-                                    'Origin': 'https://ngl.link',
-                                    'Referer': `https://ngl.link/${username}`,
-                                }
-                            });
-                            
-                            return response.ok;
-                        },
-                        
-                        async () => {
-                            // Method 2: Alternative CORS proxy
-                            const proxyUrl = `https://api.codetabs.com/v1/proxy/?quest=https://ngl.link/${username}`;
-                            const formData = new FormData();
-                            formData.append('question', message);
-                            
-                            const response = await fetch(proxyUrl, {
-                                method: 'POST',
-                                body: formData
-                            });
-                            
-                            return response.ok;
-                        },
-                        
-                        async () => {
-                            // Method 3: Simulated success (for demo purposes)
-                            await new Promise(resolve => setTimeout(resolve, 500));
-                            return true;
-                        }
-                    ];
+                    const formData = new FormData();
+                    formData.append('question', message);
+                    formData.append('username', username);
                     
-                    // Try each method
-                    for (let i = 0; i < methods.length; i++) {
-                        try {
-                            const success = await methods[i]();
-                            if (success) {
-                                return { 
-                                    success: true, 
-                                    method: `Method ${i + 1}`,
-                                    username: username 
-                                };
-                            }
-                        } catch (error) {
-                            console.log(`Method ${i + 1} failed:`, error);
-                        }
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': '*/*',
+                            'Origin': 'https://ngl.link',
+                            'Referer': `https://ngl.link/${username}`,
+                        },
+                        mode: 'cors'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     
-                    throw new Error('Semua metode gagal');
+                    return { success: true };
                     
                 } catch (error) {
-                    if (attempt < maxAttempts) {
-                        // Retry after delay
-                        await new Promise(resolve => setTimeout(resolve, 1000));
-                        return sendNGLMessage(link, message, attempt + 1);
-                    }
-                    
-                    return { 
-                        success: false, 
-                        error: error.message,
-                        username: 'unknown'
-                    };
+                    return { success: false, error: error.message };
                 }
             }
             
-            // Main send function
+            // Event listener untuk tombol kirim
             sendBtn.addEventListener('click', async function() {
                 const nglLink = nglLinkInput.value.trim();
                 const messageCount = parseInt(messageCountInput.value);
                 const messageText = messageTextInput.value.trim();
                 
-                // Validation
+                // Validasi input
                 if (!nglLink || !nglLink.includes('ngl.link')) {
                     statusDiv.className = 'status error';
-                    statusDiv.textContent = '❌ Masukkan link NGL yang valid!';
+                    statusDiv.textContent = 'Masukkan link NGL yang valid!';
                     return;
                 }
                 
-                if (isNaN(messageCount) || messageCount < 1 || messageCount > 20) {
+                if (!messageCount || messageCount < 1 || messageCount > 20) {
                     statusDiv.className = 'status error';
-                    statusDiv.textContent = '❌ Jumlah pesan harus 1-20!';
+                    statusDiv.textContent = 'Jumlah pesan harus antara 1-20!';
                     return;
                 }
                 
                 if (!messageText) {
                     statusDiv.className = 'status error';
-                    statusDiv.textContent = '❌ Masukkan teks pesan!';
+                    statusDiv.textContent = 'Masukkan teks pesan!';
                     return;
                 }
                 
-                // Setup
+                // Setup pengiriman
                 statusDiv.className = 'status processing';
-                statusDiv.textContent = `🚀 Memulai pengiriman ${messageCount} pesan...`;
+                statusDiv.textContent = `Memulai pengiriman ${messageCount} pesan...`;
+                
                 counterDiv.style.display = 'block';
                 currentCountSpan.textContent = '0';
                 totalCountSpan.textContent = messageCount;
+                
                 sendBtn.disabled = true;
-                debugInfoDiv.style.display = 'block';
                 
-                successCount = 0;
-                failedCount = 0;
-                updateStats();
-                updateProgress(0, messageCount);
-                
-                const results = [];
-                const startTime = Date.now();
+                let successCount = 0;
                 
                 try {
                     for (let i = 0; i < messageCount; i++) {
-                        const currentMessage = `${messageText} - #${i + 1}`;
                         currentCountSpan.textContent = i + 1;
                         
-                        statusDiv.textContent = `📤 Mengirim pesan ${i + 1}/${messageCount}...`;
-                        updateProgress(i + 1, messageCount);
-                        
-                        const result = await sendNGLMessage(nglLink, currentMessage);
-                        results.push(result);
+                        const result = await sendToNGL(nglLink, `${messageText} #${i + 1}`);
                         
                         if (result.success) {
                             successCount++;
-                            showDebugInfo(`✅ Pesan ${i + 1} berhasil dikirim!`);
-                        } else {
-                            failedCount++;
-                            showDebugInfo(`❌ Pesan ${i + 1} gagal: ${result.error}`);
                         }
                         
-                        updateStats();
-                        
-                        // Delay between messages
-                        await new Promise(resolve => setTimeout(resolve, 800));
+                        // Delay antara pengiriman
+                        await new Promise(resolve => setTimeout(resolve, 1500));
                     }
                     
-                    // Calculate total time
-                    const totalTime = ((Date.now() - startTime) / 1000).toFixed(1);
-                    
-                    // Final results
-                    statusDiv.className = 'status success';
-                    statusDiv.innerHTML = `
-                        ✅ Selesai! ${successCount} pesan berhasil dikirim<br>
-                        ⏱️ Waktu: ${totalTime} detik<br>
-                        <small>${failedCount > 0 ? `(${failedCount} gagal)` : 'Semua pesan berhasil!'}</small>
-                    `;
+                    // Tampilkan hasil
+                    if (successCount > 0) {
+                        statusDiv.className = 'status success';
+                        statusDiv.textContent = `Berhasil mengirim ${successCount} pesan!`;
+                    } else {
+                        statusDiv.className = 'status error';
+                        statusDiv.textContent = 'Gagal mengirim semua pesan.';
+                    }
                     
                 } catch (error) {
                     statusDiv.className = 'status error';
-                    statusDiv.textContent = `💥 Error: ${error.message}`;
+                    statusDiv.textContent = `Error: ${error.message}`;
                 } finally {
                     sendBtn.disabled = false;
                 }
             });
             
-            // Auto-focus and setup
+            // Auto-focus pada input pertama
             nglLinkInput.focus();
-            messageCountInput.addEventListener('input', function() {
-                const count = parseInt(this.value) || 0;
-                if (count > 20) this.value = 20;
-                if (count < 1) this.value = 1;
-            });
         });
     </script>
 </body>
