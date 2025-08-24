@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPAM NGL - WORKING</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff003c;
+            --secondary: #00ffff;
+            --dark: #0a0a1a;
+            --light: #f8f8ff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2a 100%);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(20, 20, 40, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            border: 2px solid var(--primary);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            color: #a0a0cc;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--secondary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(10, 10, 30, 0.8);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, var(--primary), #ff0066);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(45deg, #ff0066, var(--primary));
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .success {
+            background: rgba(0, 255, 0, 0.1);
+            color: #00ff00;
+            border: 1px solid #00ff00;
+        }
+        
+        .error {
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff0000;
+            border: 1px solid #ff0000;
+        }
+        
+        .processing {
+            background: rgba(0, 255, 255, 0.1);
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+        
+        .counter {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2rem;
+            color: var(--secondary);
+        }
+        
+        .message-preview {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 0, 60, 0.1);
+            border-radius: 10px;
+            border: 1px solid var(--primary);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #a0a0cc;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-paper-plane"></i> SPAM NGL</h1>
+            <p class="subtitle">Kirim pesan ke NGL.link - WORKING VERSION</p>
+        </div>
+        
+        <div class="form-group">
+            <label for="nglLink"><i class="fas fa-link"></i> Masukkan Link NGL</label>
+            <input type="url" id="nglLink" placeholder="https://ngl.link/username" value="https://ngl.link/" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="messageCount"><i class="fas fa-hashtag"></i> Jumlah Pesan (1-10)</label>
+            <input type="number" id="messageCount" placeholder="Jumlah pesan" min="1" max="10" value="3" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="messageText"><i class="fas fa-comment"></i> Isi Pesan</label>
+            <input type="text" id="messageText" placeholder="Tulis pesan Anda..." value="Test message from NGL Sender 🚀" required>
+        </div>
+        
+        <button class="btn" id="sendBtn">
+            <i class="fas fa-paper-plane"></i> KIRIM PESAN
+        </button>
+        
+        <div class="counter" id="counter">
+            Progress: <span id="currentCount">0</span>/<span id="totalCount">0</span>
+        </div>
+        
+        <div class="message-preview" id="messagePreview">
+            <strong>Preview:</strong> <span id="previewText"></span>
+        </div>
+        
+        <div class="status processing" id="status">
+            Siap mengirim pesan...
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 spam ngl - by xfelloid Ready</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nglLinkInput = document.getElementById('nglLink');
+            const messageCountInput = document.getElementById('messageCount');
+            const messageTextInput = document.getElementById('messageText');
+            const sendBtn = document.getElementById('sendBtn');
+            const statusDiv = document.getElementById('status');
+            const counterDiv = document.getElementById('counter');
+            const currentCountSpan = document.getElementById('currentCount');
+            const totalCountSpan = document.getElementById('totalCount');
+            const previewTextSpan = document.getElementById('previewText');
+            const messagePreviewDiv = document.getElementById('messagePreview');
+            
+            // Update preview
+            function updatePreview() {
+                previewTextSpan.textContent = messageTextInput.value;
+                messagePreviewDiv.style.display = 'block';
+            }
+            
+            messageTextInput.addEventListener('input', updatePreview);
+            updatePreview();
+            
+            // Fungsi untuk mengirim pesan ke NGL
+            async function sendToNGL(link, message) {
+                try {
+                    // Membersihkan link NGL
+                    let cleanLink = link.trim();
+                    if (!cleanLink.startsWith('http')) {
+                        cleanLink = 'https://' + cleanLink;
+                    }
+                    
+                    // Extract username dari link NGL
+                    const url = new URL(cleanLink);
+                    const username = url.pathname.split('/').filter(Boolean)[0];
+                    
+                    if (!username) {
+                        throw new Error('Format link NGL tidak valid');
+                    }
+                    
+                    // API endpoint NGL (ini adalah endpoint aktual NGL)
+                    const apiUrl = `https://ngl.link/${username}`;
+                    
+                    // Data yang dikirim
+                    const formData = new FormData();
+                    formData.append('question', message);
+                    formData.append('username', username);
+                    formData.append('deviceId', 'web-' + Date.now());
+                    formData.append('gameSlug', '');
+                    formData.append('referrer', '');
+                    
+                    // Mengirim request ke NGL
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': '*/*',
+                            'Origin': 'https://ngl.link',
+                            'Referer': `https://ngl.link/${username}`,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        mode: 'cors'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const result = await response.text();
+                    return { success: true, data: result };
+                    
+                } catch (error) {
+                    return { 
+                        success: false, 
+                        error: error.message,
+                        // Fallback untuk simulasi jika CORS block
+                        simulated: true
+                    };
+                }
+            }
+            
+            // Event listener untuk tombol kirim
+            sendBtn.addEventListener('click', async function() {
+                const nglLink = nglLinkInput.value.trim();
+                const messageCount = parseInt(messageCountInput.value);
+                const messageText = messageTextInput.value.trim();
+                
+                // Validasi input
+                if (!nglLink || !nglLink.includes('ngl.link')) {
+                    statusDiv.className = 'status error';
+                    statusDiv.textContent = 'Masukkan link NGL yang valid (harus mengandung ngl.link)!';
+                    return;
+                }
+                
+                if (!messageCount || messageCount < 1 || messageCount > 10) {
+                    statusDiv.className = 'status error';
+                    statusDiv.textContent = 'Jumlah pesan harus antara 1-10!';
+                    return;
+                }
+                
+                if (!messageText) {
+                    statusDiv.className = 'status error';
+                    statusDiv.textContent = 'Masukkan teks pesan!';
+                    return;
+                }
+                
+                // Setup pengiriman
+                statusDiv.className = 'status processing';
+                statusDiv.textContent = `Memulai pengiriman ${messageCount} pesan...`;
+                
+                counterDiv.style.display = 'block';
+                currentCountSpan.textContent = '0';
+                totalCountSpan.textContent = messageCount;
+                
+                sendBtn.disabled = true;
+                
+                let successCount = 0;
+                let failCount = 0;
+                
+                try {
+                    // Kirim pesan sebanyak yang diminta
+                    for (let i = 0; i < messageCount; i++) {
+                        currentCountSpan.textContent = i + 1;
+                        
+                        const result = await sendToNGL(nglLink, 
+                            `${messageText} #${i + 1}/${messageCount}`
+                        );
+                        
+                        if (result.success) {
+                            successCount++;
+                            statusDiv.textContent = `Mengirim pesan ${i + 1}/${messageCount}...`;
+                        } else {
+                            failCount++;
+                            // Fallback simulation jika actual API gagal
+                            await new Promise(resolve => setTimeout(resolve, 800));
+                        }
+                        
+                        // Delay antara pengiriman
+                        await new Promise(resolve => setTimeout(resolve, 1200));
+                    }
+                    
+                    // Tampilkan hasil
+                    if (successCount > 0) {
+                        statusDiv.className = 'status success';
+                        statusDiv.textContent = 
+                            `✅ Berhasil mengirim ${successCount} pesan! ${failCount > 0 ? `(${failCount} gagal)` : ''}`;
+                    } else {
+                        statusDiv.className = 'status error';
+                        statusDiv.textContent = 
+                            `❌ Gagal mengirim pesan. NGL mungkin memblokir request.`;
+                    }
+                    
+                } catch (error) {
+                    statusDiv.className = 'status error';
+                    statusDiv.textContent = `Error: ${error.message}`;
+                } finally {
+                    sendBtn.disabled = false;
+                }
+            });
+            
+            // Auto-focus pada input pertama
+            nglLinkInput.focus();
+        });
+    </script>
+</body>
+</html>
